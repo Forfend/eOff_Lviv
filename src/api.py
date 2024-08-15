@@ -20,12 +20,6 @@ class ScheduleToday(Resource):
         print('Got schedule')
         return Response(schedule, mimetype='application/json', content_type='application/json')
 
-# @app.route('/schedule')
-# def get_schedule():
-#     print('Received request for schedule of today')
-#     schedule = get_current_schedule()
-#     print('Got schedule')
-#     return Response(schedule, mimetype='application/json', content_type='application/json')
 
 @ns.route('/tomorrow')
 class ScheduleTomorrow(Resource):
@@ -38,17 +32,6 @@ class ScheduleTomorrow(Resource):
             return jsonify([])
 
         return Response(schedule, mimetype='application/json', content_type='application/json')
-    
-# @app.route('/schedule/tomorrow')
-# def get_schedule_tomorrow():
-#     print('Received request for schedule of tomorrow')
-#     schedule = get_schedule_for_tomorrow()
-#     print('Got schedule for tomorrow')
-
-#     if not schedule:
-#         return jsonify([])
-
-#     return Response(schedule, mimetype='application/json', content_type='application/json')
 
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port=5050)
+    app.run(host = '0.0.0.0', port=5000)

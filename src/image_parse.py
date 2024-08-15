@@ -40,11 +40,11 @@ def analyze_cell_color(image, cell_region):
     cv2.rectangle(image, (x1, y1), (x2, y2), (104, 188, 255), 2)
 
     # Display the image with all identified regions
-    # cv2.imshow('Identified Regions', image)
+    cv2.imshow('Identified Regions', image)
 
     # Wait for a key press to close the window
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     red_count = np.count_nonzero(red_mask)
     green_count = np.count_nonzero(green_mask)
@@ -67,6 +67,13 @@ def find_cell_region(image):
     #                                cv2.THRESH_BINARY, 11, 2)
 
     hsv_cell_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Display the image with all identified regions
+    cv2.imshow('HSV Image', hsv_cell_image)
+
+    # Wait for a key press to close the window
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     lower_red = np.array([0, 75, 75])
     upper_red = np.array([30, 255, 255])
