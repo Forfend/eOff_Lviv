@@ -10,9 +10,10 @@ API_LVIV_URL = 'https://api.loe.lviv.ua'
 
 def get_current_schedule():
     urls = get_image_urls()
+    headers = {'accept': 'application/json', 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'}
 
     print('Searching for the schedule for today ', datetime.now().strftime('%d %m %Y'))
-    result = requests.get(API_LVIV_URL + urls['today']).content
+    result = requests.get(API_LVIV_URL + urls['today'], headers=headers).content
     schedule = create_schedule(result)
     return schedule
     
@@ -31,9 +32,10 @@ def get_schedule_for_tomorrow():
 
 
 def get_image_urls():
-    result = requests.get(API_LVIV_URL_SCHEDULE_IMAGE).content
+    headers = {'accept': 'application/json', 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'}
+    result = requests.get(API_LVIV_URL_SCHEDULE_IMAGE, headers=headers).content
     data = json.loads(result)
-    children = currentSchedule = data['hydra:member'][0]['menuItems'][1]['children']
+    children = currentSchedule = data[0]['menuItems'][1]['children']
     scheduleTomorow =  None
     currentSchedule = None
     for chield in children[::-1]:

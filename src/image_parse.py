@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import json
 
-image_path = 'assets/image5.png'
+image_path = 'assets/image6.png'
 
 groups = [
     '1.1', '1.2', 
@@ -40,11 +40,11 @@ def analyze_cell_color(image, cell_region):
     cv2.rectangle(image, (x1, y1), (x2, y2), (104, 188, 255), 2)
 
     # Display the image with all identified regions
-    cv2.imshow('Identified Regions', image)
+    # cv2.imshow('Identified Regions', image)
 
     # Wait for a key press to close the window
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     red_count = np.count_nonzero(red_mask)
     green_count = np.count_nonzero(green_mask)
@@ -69,11 +69,11 @@ def find_cell_region(image):
     hsv_cell_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     # Display the image with all identified regions
-    cv2.imshow('HSV Image', hsv_cell_image)
+    # cv2.imshow('HSV Image', hsv_cell_image)
 
     # Wait for a key press to close the window
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     lower_red = np.array([0, 75, 75])
     upper_red = np.array([30, 255, 255])
@@ -107,10 +107,10 @@ def find_cell_region(image):
 
 def create_schedule(image_bytes):
     print('Running color analyzer using OpenCV')
-    # np_bytes = np.frombuffer(image_bytes, np.uint8)
-    # image = cv2.imdecode(np_bytes, cv2.IMREAD_COLOR)
-    image = cv2.imread(image_path)
-    img_height= image.shape[0]
+    np_bytes = np.frombuffer(image_bytes, np.uint8)
+    image = cv2.imdecode(np_bytes, cv2.IMREAD_COLOR)
+    # image = cv2.imread(image_path)
+    # img_height= image.shape[0]
     # startX, startY = 85, img_height - 220
     # width, height = 1200, 230
     # endX, endY = startX + width, startY + height
