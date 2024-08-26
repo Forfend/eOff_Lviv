@@ -9,5 +9,5 @@ docker build --platform linux/amd64 -t forfend/schedule:latest .
 # Run a Docker container
 
 ```
-docker run -p 80:5000 forfend/schedule:latest
+docker run -d -p 80:5000 forfend/schedule:latest
 ```
