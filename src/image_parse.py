@@ -1,9 +1,10 @@
-import io
 import cv2
 import numpy as np
 import json
+import logging
 
-image_path = 'assets/image5.png'
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 groups = [
     '1.1', '1.2', 
@@ -27,8 +28,6 @@ def analyze_cell_color(image, cell_region):
 
     hsv_cell_image = cv2.cvtColor(cell_image, cv2.COLOR_BGR2HSV)
 
-    # print(f'hsv_cell_image={hsv_cell_image}')
-
     lower_red = np.array([0, 75, 75])
     upper_red = np.array([30, 255, 255])
     lower_green = np.array([40, 50, 50])
@@ -39,10 +38,7 @@ def analyze_cell_color(image, cell_region):
 
     cv2.rectangle(image, (x1, y1), (x2, y2), (104, 188, 255), 2)
 
-    # Display the image with all identified regions
     # cv2.imshow('Identified Regions', image)
-
-    # Wait for a key press to close the window
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
@@ -56,22 +52,9 @@ def analyze_cell_color(image, cell_region):
 
 
 def find_cell_region(image):
-    # Convert to grayscale for processing
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Apply histogram equalization
-    # equalized_image = cv2.equalizeHist(gray_image)
-
-    # Adaptive thresholding after histogram equalization
-    # thresh = cv2.adaptiveThreshold(equalized_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-    #                                cv2.THRESH_BINARY, 11, 2)
-
     hsv_cell_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    # Display the image with all identified regions
     # cv2.imshow('HSV Image', hsv_cell_image)
-
-    # Wait for a key press to close the window
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
@@ -86,62 +69,38 @@ def find_cell_region(image):
     mask = cv2.bitwise_or(red_mask, green_mask)
 
     countrous, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
     countrous = [cnt for cnt in countrous if cv2.contourArea(cnt) > 50]
-
     cell_regions = [cv2.boundingRect(cnt) for cnt in countrous]
-
     cell_regions = sorted(cell_regions, key=lambda x: (x[1], x[0]))
 
     for x, y, w, h in cell_regions:
         cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-    # Display the image with all identified regions
     # cv2.imshow('Identified Regions', image)
-
-    # Wait for a key press to close the window
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
     return cell_regions
 
 def create_schedule(image_bytes):
-    print('Running color analyzer using OpenCV')
-    # np_bytes = np.frombuffer(image_bytes, np.uint8)
-    # image = cv2.imdecode(np_bytes, cv2.IMREAD_COLOR)
-    image = cv2.imread(image_path)
-    img_height= image.shape[0]
-    # startX, startY = 85, img_height - 220
-    # width, height = 1200, 230
-    # endX, endY = startX + width, startY + height
-
-    # image = image[startY:endY, startX:endX]
+    logger.info('Running color analyzer using OpenCV')
+    np_bytes = np.frombuffer(image_bytes, np.uint8)
+    image = cv2.imdecode(np_bytes, cv2.IMREAD_COLOR)
 
     # cv2.imshow('Image', image)
-
-    # Wait for a key press to close the window
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
     cell_regions = find_cell_region(image)
-    # print(f'cell_regions={cell_regions}')
-    # print(f'cell_regions={len(cell_regions)}')
     schedule_data = {}
 
     for i, group in enumerate(groups):
         group_data = {}
         for j, hour in enumerate(hours):
             cell_index = i * len(hours) + j
-            # print(f'cell_index={cell_index}')
             cell_region = cell_regions[cell_index]
             status = analyze_cell_color(image, cell_region)
             group_data[hour] = status
         schedule_data[group] = group_data
     return json.dumps(schedule_data, indent=4)
-
-if __name__ == '__main__':
-    print('Running text extraction using OpenCV')
-    schedule = create_schedule(image_path)
-    print(schedule)
-    print('Text extraction completed')
     
