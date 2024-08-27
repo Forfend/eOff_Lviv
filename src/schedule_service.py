@@ -36,6 +36,8 @@ def get_schedule_for_tomorrow():
 def get_image_urls():
     headers = {'accept': 'application/json', 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'}
     result = requests.get(API_LVIV_URL_SCHEDULE_IMAGE, headers=headers).content
+    headers = {'accept': 'application/json', 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'}
+    result = requests.get(API_LVIV_URL_SCHEDULE_IMAGE, headers=headers).content
     data = json.loads(result)
     currentSchedule = data[0]['menuItems'][0]['imageUrl']
     scheduleTomorow =  data[0]['menuItems'][2]['imageUrl']
