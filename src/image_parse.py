@@ -58,8 +58,8 @@ def find_cell_region(image):
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
-    lower_red = np.array([0, 75, 75])
-    upper_red = np.array([30, 255, 255])
+    lower_red = np.array([10, 75, 75])
+    upper_red = np.array([35, 255, 255])
     lower_green = np.array([40, 50, 50])
     upper_green = np.array([80, 255, 255])
 
