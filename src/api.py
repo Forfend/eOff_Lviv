@@ -38,4 +38,4 @@ class ScheduleTomorrow(Resource):
         return Response(schedule, mimetype='application/json', content_type='application/json')
 
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port=5050)
+    app.run(host = '0.0.0.0', port=5000)

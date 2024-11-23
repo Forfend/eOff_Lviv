@@ -6,6 +6,12 @@
 docker build --platform linux/amd64 -t forfend/schedule:latest .
 ```
 
+# Push a Docker image
+
+```
+docker push forfend/schedule:latest
+```
+
 # Run a Docker container
 
 ```
